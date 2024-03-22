@@ -1,4 +1,4 @@
-let angle = 90;
+let angle = 0;
 let wave = []
 let circleNo = 3;
 let fourierX;
@@ -9,7 +9,7 @@ var h = window.innerHeight;
 
 function setup() {
   createCanvas(w, h);
-  const skip = 8;
+  const skip = 2;
   for (let i = 0; i < drawing.length; i += skip) {
     const c = new Complex(drawing[i].x, drawing[i].y);
     x.push(c);
@@ -18,15 +18,7 @@ function setup() {
   // fourierX.sort((a, b) => b.amp - a.amp);
 }
 
-function draw() {
-  // noLoop();
-  noFill();
-  background(0);
-  let radius = 50;
-  
-  translate(100,300); 
-  let point_x = 0;
-  let point_y = 0;
+function createEpicycles(point_x, point_y){
   
   for(i = 0; i< fourierX.length; i++){
     let prev_x = point_x;
@@ -35,31 +27,35 @@ function draw() {
     let radius = fourierX[i].amp;
     let phase = fourierX[i].phase;
     let freq = fourierX[i].freq;
-
     point_x += radius * cos(freq * angle + phase);
     point_y += radius * sin(freq * angle + phase);
-    stroke(255,100);
+    stroke(255,70);
     circle(prev_x, prev_y, 2 * radius);
 
     //create the line from circle to radius
-    stroke(255)
+    stroke(255,80)
     line(prev_x, prev_y, point_x, point_y);
     prev_x = point_x;
     prev_y = point_y;
   }
+  return createVector(point_x, point_y);
+}
+function draw() {
+  // noLoop();
+  noFill();
+  background(0);
+  
+  // translate(100,300); 
+  v = createEpicycles(width/2, height/2)
+  wave.unshift(v);
   
   //draw the wave
-  wave.unshift({
-    x: point_x,
-    y: point_y
-  });
-  translate(200,0);
-  line(point_x-200, point_y, 0, wave[0])
   beginShape();  
+  stroke('255');
   for(i = 0; i < wave.length; i++){
-    point(i, wave[i]);
+    point(wave[i].x, wave[i].y);
   }
   endShape();
-  angle += 0.05;
-
+  const da = TWO_PI / fourierX.length;
+  angle += da;
 }

@@ -5,9 +5,8 @@ class Complex{
   }
   
   add(c){
-    let r = c.re + this.re;
-    let i = c.ig + this.ig;
-    return new Complex(r, i);
+    this.re = c.re + this.re;
+    this.ig = c.ig + this.ig;
   }
   
   mul(c){
@@ -22,8 +21,8 @@ function dft(x){
   for(let k=0; k<N; k++){
     let sum = new Complex(0,0);
     for(let n=0; n<N; n++){
-      let angle = (2*PI*k*n)/N;
-      c1 = new Complex(cos(angle), -sin(angle));
+      let angle = (TWO_PI*k*n)/N;
+      let c1 = new Complex(cos(angle), -sin(angle));
       sum.add(x[n].mul(c1));
     }
     //need to avarage it so that it fits the frame
@@ -31,9 +30,9 @@ function dft(x){
     sum.ig = sum.ig/N;
     
     let freq = k;
-    let amp = sqrt(sum.re * sum.re + sum.im * sum.im);
-    let phase = atan2(sum.im, sum.re);
-    X[k] = { re: sum.re, im: sum.im, freq, amp, phase };
+    let amp = sqrt(sum.re * sum.re + sum.ig * sum.ig);
+    let phase = atan2(sum.ig, sum.re);
+    X[k] = { re: sum.re, ig: sum.ig, freq, amp, phase };
   }
   return X;
   
