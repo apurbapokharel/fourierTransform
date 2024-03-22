@@ -3,8 +3,12 @@ let wave = []
 let circleNo = 3;
 let fourierX;
 let x = [];
+
+var w = window.innerWidth;
+var h = window.innerHeight;  
+
 function setup() {
-  createCanvas(600, 400);
+  createCanvas(w, h);
   const skip = 8;
   for (let i = 0; i < drawing.length; i += skip) {
     const c = new Complex(drawing[i].x, drawing[i].y);
