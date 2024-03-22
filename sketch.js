@@ -46,7 +46,7 @@ function draw() {
   background(0);
   
   // translate(100,300); 
-  v = createEpicycles(width/2, height/2)
+  v = createEpicycles(w/8, h/8)
   wave.unshift(v);
   
   //draw the wave
